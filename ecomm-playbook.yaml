@@ -24,7 +24,17 @@
         name: git
         state: present
 
-    - name: git pull
+    - name: clean the web directory
+      file:
+        path: /var/www/html
+        state: absent
+
+    - name: create the web directory
+      file:
+        path: /var/www/html
+        state: directory
+
+    - name: git clone
       git:
         repo: https://github.com/ash2code/ansible-jenkins-ecomm-app.git
         dest: /var/www/html
