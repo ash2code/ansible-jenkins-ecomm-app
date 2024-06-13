@@ -12,14 +12,14 @@ pipeline {
         stage('playbook-syntax') {
             steps {
                 script {
-                    sh "ansible-playbook -i hosts --syntax-check" 
+                    sh "ansible-playbook -i hosts ecomm-playbook.yaml --syntax-check" 
                 }
             }
         }
         stage('playbook-run') {
             steps {
                 script {
-                    sh "ansible-playbook -i hosts playbook.yml"
+                    sh "ansible-playbook -i hosts ecomm-playbook.yaml"
                 }
             }
         }
