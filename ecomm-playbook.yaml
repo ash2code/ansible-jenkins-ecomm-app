@@ -13,12 +13,25 @@
         name: nginx 
         state: latest
 
-    - name: start nginx
+    - name: start and enable nginx
       service: 
         name: nginx
         state: started
+        enabled: yes
     
+    - name: ensure git is installed
+      apt:
+        name: git
+        state: present
+
     - name: git pull
       git:
         repo: https://github.com/ash2code/ansible-jenkins-ecomm-app.git
         dest: /var/www/html
+      notify: restart nginx
+
+  handlers:
+    - name: restart nginx
+      service:
+        name: nginx
+        state: restarted
