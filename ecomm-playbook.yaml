@@ -1,0 +1,24 @@
+---
+- name: play for ecomm web application deployment
+  hosts: all   
+  become: yes   
+
+  tasks: 
+    - name: update package index
+      apt: 
+        update_cache: yes
+
+    - name: install nginx
+      apt: 
+        name: nginx 
+        state: latest
+
+    - name: start nginx
+      service: 
+        name: nginx
+        state: started
+    
+    - name: git pull
+      git:
+        repo: https://github.com/ash2code/ansible-jenkins-ecomm-app.git
+        dest: /var/www/html
