@@ -12,14 +12,16 @@ pipeline {
         stage('playbook-syntax') {
             steps {
                 script {
-                    sh "ansible-playbook -i hosts ecomm-playbook.yaml --syntax-check" 
+                    sh "ansible-playbook -i hosts ecomm-playbook.yaml --syntax-check"
                 }
             }
         }
         stage('playbook-run') {
             steps {
-                script {
-                    sh "ansible-playbook -i hosts ecomm-playbook.yaml"
+                withCredentials([sshUserPrivateKey(credentialsId: 'aws-ssh', keyFileVariable: 'SSH_KEY')]) {
+                    script {
+                        sh "ansible-playbook -i hosts ecomm-playbook.yaml --private-key $SSH_KEY"
+                    }
                 }
             }
         }
